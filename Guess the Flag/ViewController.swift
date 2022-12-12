@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         
 //        button1.layer.borderWidth = 1
 //        button2.layer.borderWidth = 1
@@ -28,7 +28,6 @@ class ViewController: UIViewController {
 //        button1.layer.borderColor = UIColor.lightGray.cgColor
 //        button2.layer.borderColor = UIColor.lightGray.cgColor
 //        button3.layer.borderColor = UIColor.lightGray.cgColor
-        
         makeArray()
         askQestion()
     }
@@ -60,6 +59,8 @@ class ViewController: UIViewController {
         countries.append("us")
     }
 
+    // MARK: - Create IBAction for button
+    
     @IBAction func buttonTapped(_ sender: UIButton) {
         var title: String
         
@@ -72,6 +73,9 @@ class ViewController: UIViewController {
         }
         
         if countOfAskedQuestions == 5 {
+            
+            // MARK: - UIAlertControler
+            
             let ac = UIAlertController(title: title, message: "Game over. Your score is \(score)", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Restart", style: .destructive, handler: askQestion))
             score = 0
@@ -90,5 +94,12 @@ class ViewController: UIViewController {
         
         countOfAskedQuestions += 1
     }
+    
+    @objc func shareTapped() {
+        let vc = UIActivityViewController(activityItems: ["Your score is \(score)"], applicationActivities: [])
+        vc.title = "Your score is \(score)"
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true)
+        }
 }
 
